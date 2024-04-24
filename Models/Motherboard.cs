@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public class Motherboard : Product
+    public class Motherboard : ProductBase
     {
         public enum MotherboardFormFactor
         {

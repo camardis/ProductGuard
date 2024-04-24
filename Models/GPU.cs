@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public class GPU : Product
+    public class GPU : ProductBase
     {
         public GPU()
         {

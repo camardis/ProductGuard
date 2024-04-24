@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public abstract class Product
+    public abstract class ProductBase
     {
-        protected Product()
+        protected ProductBase()
         {
         }
 
-        public Product(string name, string brand, decimal price, string description, bool available, string image)
+        public ProductBase(string name, string brand, decimal price, string description, bool available, string image)
         {
             Name = name;
             Brand = brand;

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public class RAM : Product
+    public class RAM : ProductBase
     {
         public RAM(string name, string brand, decimal price, string description, bool available, string image,
                        int capacity, string type, int speed)

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public class StorageDevice : Product
+    public class StorageDevice : ProductBase
     {
 
         public enum InterfaceType
