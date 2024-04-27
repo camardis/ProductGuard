@@ -12,6 +12,7 @@ namespace ProductGuard.Controllers
         public MotherboardController(SimplyDbContext context, ILogger<ProductBaseController<Motherboard>> logger) 
             : base(context, logger)
         {
+
         }
     }
 }

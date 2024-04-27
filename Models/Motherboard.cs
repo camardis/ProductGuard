@@ -1,18 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using ProductGuard.Enums;
 
 namespace ProductGuard.Models
 {
     public class Motherboard : ProductBase
     {
-        public enum MotherboardFormFactor
-        {
-            ExtendedATX,
-            ATX,
-            MicroATX,
-            MiniITX,
-        }
-
         public Motherboard(string name, string brand, decimal price, string description, bool available, string image,
                        string socket, string formFactor, int maxMemory)
             : base(name, brand, price, description, available, image)
@@ -21,9 +13,6 @@ namespace ProductGuard.Models
             FormFactor = formFactor;
             MaxMemory = maxMemory;
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
 
         [Required(ErrorMessage = "Socket is required")]
         public string Socket { get; set; }

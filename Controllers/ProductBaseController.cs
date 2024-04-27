@@ -24,7 +24,10 @@ namespace ProductGuard.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Retrieves all products.")]
+        [SwaggerOperation(Summary = "Retrieves all products of a type.")]
+        [SwaggerResponse(200, "The products were retrieved successfully.")]
+        [SwaggerResponse(404, "No products were found.")]
+        [SwaggerResponse(500, "An error occurred while retrieving the products.")]
         public async Task<IActionResult> GetProductsAsync(int page = 1, int pageSize = 10, string orderBy = "Id", bool ascending = true)
         {
             try
@@ -38,7 +41,7 @@ namespace ProductGuard.Controllers
                 var property = typeof(T).GetProperty(orderBy);
                 if (property != null)
                 {
-                    query = ascending ? query.OrderBy(x => property.GetValue(x, null)) : query.OrderByDescending(x => property.GetValue(x, null));
+                    query = ascending ? query.OrderBy(x => EF.Property<object>(x, orderBy)) : query.OrderByDescending(x => EF.Property<object>(x, orderBy));
                 }
 
                 var products = await query.ToListAsync();
@@ -58,8 +61,12 @@ namespace ProductGuard.Controllers
             }
         }
 
+
         [HttpGet("{uuid}")]
-        [SwaggerOperation(Summary = "Retrieves a product by its ID.")]
+        [SwaggerOperation(Summary = "Retrieves a product by its uuid.")]
+        [SwaggerResponse(200, "The product was retrieved successfully.")]
+        [SwaggerResponse(404, "The product was not found.")]
+        [SwaggerResponse(500, "An error occurred while retrieving the product.")]
         public async Task<IActionResult> GetProductByIdAsync([FromRoute] Guid uuid)
         {
             try
@@ -67,16 +74,16 @@ namespace ProductGuard.Controllers
                 var product = await _context.Set<T>().FindAsync(uuid);
                 if (product == null)
                 {
-                    _logger.LogWarning("Product with ID {Id} not found.", uuid);
+                    _logger.LogWarning("Product with uuid {uuid} not found.", uuid);
                     return NotFound();
                 }
 
-                _logger.LogInformation("Product with ID {Id} found.", uuid);
+                _logger.LogInformation("Product with uuid {uuid} found.", uuid);
                 return Ok(product);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while retrieving the product with ID {Id}.", uuid);
+                _logger.LogError(ex, "An error occurred while retrieving the product with uuid {uuid}.", uuid);
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -84,6 +91,8 @@ namespace ProductGuard.Controllers
         [HttpPost]
         [SwaggerOperation(Summary = "Creates a new product.")]
         [SwaggerResponse(201, "The product was created successfully.")]
+        [SwaggerResponse(400, "The model state is invalid.")]
+        [SwaggerResponse(500, "An error occurred while creating the product.")]
         public async Task<IActionResult> CreateProductAsync([FromBody] T product)
         {
             try
@@ -94,11 +103,13 @@ namespace ProductGuard.Controllers
                     return BadRequest(ModelState);
                 }
 
+                product.Id = await GenerateId();
+
                 _context.Set<T>().Add(product);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Product created with ID {Id}.", product.Uuid);
-                return CreatedAtAction(nameof(GetProductByIdAsync), new { uuid = product.Uuid }, product);
+                _logger.LogInformation("Product created with uuid {uuid}.", product.Uuid);
+                return Created("Product created", product);
             }
             catch (Exception ex)
             {
@@ -108,7 +119,11 @@ namespace ProductGuard.Controllers
         }
 
         [HttpPut("{uuid}")]
-        [SwaggerOperation(Summary = "Updates a product by its ID.")]
+        [SwaggerOperation(Summary = "Updates a product by its uuid.")]
+        [SwaggerResponse(204, "The product was updated successfully.")]
+        [SwaggerResponse(400, "The model state is invalid.")]
+        [SwaggerResponse(404, "The product was not found.")]
+        [SwaggerResponse(500, "An error occurred while updating the product.")]
         public async Task<IActionResult> UpdateProductAsync([FromRoute] Guid uuid, [FromBody] T product)
         {
             try
@@ -122,25 +137,28 @@ namespace ProductGuard.Controllers
                 var existingProduct = await _context.Set<T>().FindAsync(uuid);
                 if (existingProduct == null)
                 {
-                    _logger.LogWarning("Product with ID {Id} not found.", uuid);
+                    _logger.LogWarning("Product with uuid {uuid} not found.", uuid);
                     return NotFound();
                 }
 
                 _context.Entry(existingProduct).CurrentValues.SetValues(product);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Product with ID {Id} updated.", uuid);
+                _logger.LogInformation("Product with uuid {uuid} updated.", uuid);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while updating the product with ID {Id}.", uuid);
+                _logger.LogError(ex, "An error occurred while updating the product with uuid {uuid}.", uuid);
                 return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpDelete("{uuid}")]
-        [SwaggerOperation(Summary = "Deletes a product by its ID.")]
+        [SwaggerOperation(Summary = "Deletes a product by its uuid.")]
+        [SwaggerResponse(204, "The product was deleted successfully.")]
+        [SwaggerResponse(404, "The product was not found.")]
+        [SwaggerResponse(500, "An error occurred while deleting the product.")]
         public async Task<IActionResult> DeleteProductAsync([FromRoute] Guid uuid)
         {
             try
@@ -148,21 +166,130 @@ namespace ProductGuard.Controllers
                 var product = await _context.Set<T>().FindAsync(uuid);
                 if (product == null)
                 {
-                    _logger.LogWarning("Product with ID {Id} not found.", uuid);
+                    _logger.LogWarning("Product with uuid {uuid} not found.", uuid);
                     return NotFound();
                 }
 
                 _context.Set<T>().Remove(product);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Product with ID {Id} deleted.", uuid);
+                _logger.LogInformation("Product with uuid {uuid} deleted.", uuid);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while deleting the product with ID {Id}.", uuid);
+                _logger.LogError(ex, "An error occurred while deleting the product with uuid {uuid}.", uuid);
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        // Set Stock amount of a product
+        [HttpPut("{uuid}/stock")]
+        [SwaggerOperation(Summary = "Updates the stock amount of a product by its uuid.")]
+        [SwaggerResponse(204, "The stock amount was updated successfully.")]
+        [SwaggerResponse(400, "The model state is invalid.")]
+        [SwaggerResponse(404, "The product was not found.")]
+        [SwaggerResponse(500, "An error occurred while updating the stock amount.")]
+        public async Task<IActionResult> SetStockAsync([FromRoute] Guid uuid, [FromBody] int stockAmount)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarning("Invalid model state.");
+                    return BadRequest(ModelState);
+                }
+                var product = await _context.Set<T>().FindAsync(uuid);
+                if (product == null)
+                {
+                    _logger.LogWarning("Product with uuid {uuid} not found.", uuid);
+                    return NotFound();
+                }
+                product.StockAmount = stockAmount;
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Stock amount of product with uuid {uuid} updated.", uuid);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the stock amount of the product with uuid {uuid}.", uuid);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // Increase or decrease the stock amount of a product
+        [HttpPatch("{uuid}/stock")]
+        [SwaggerOperation(Summary = "Increases or decreases the stock amount of a product by its uuid.")]
+        [SwaggerResponse(204, "The stock amount was updated successfully.")]
+        [SwaggerResponse(400, "The model state is invalid.")]
+        [SwaggerResponse(404, "The product was not found.")]
+        [SwaggerResponse(500, "An error occurred while updating the stock amount.")]
+        public async Task<IActionResult> UpdateStockAsync([FromRoute] Guid uuid, [FromBody] int stockUpdate)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarning("Invalid model state.");
+                    return BadRequest(ModelState);
+                }
+                var product = await _context.Set<T>().FindAsync(uuid);
+                if (product == null)
+                {
+                    _logger.LogWarning("Product with uuid {uuid} not found.", uuid);
+                    return NotFound();
+                }
+                product.StockAmount += stockUpdate;
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Stock amount of product with uuid {uuid} updated.", uuid);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the stock amount of the product with uuid {uuid}.", uuid);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // Update the price of a product
+        [HttpPut("{uuid}/price")]
+        [SwaggerOperation(Summary = "Updates the price of a product by its uuid.")]
+        [SwaggerResponse(204, "The price was updated successfully.")]
+        [SwaggerResponse(400, "The model state is invalid.")]
+        [SwaggerResponse(404, "The product was not found.")]
+        [SwaggerResponse(500, "An error occurred while updating the price.")]
+        public async Task<IActionResult> SetPriceAsync([FromRoute] Guid uuid, [FromBody] decimal price)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarning("Invalid model state.");
+                    return BadRequest(ModelState);
+                }
+                var product = await _context.Set<T>().FindAsync(uuid);
+                if (product == null)
+                {
+                    _logger.LogWarning("Product with uuid {uuid} not found.", uuid);
+                    return NotFound();
+                }
+                product.Price = price;
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Price of product with uuid {uuid} updated.", uuid);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the price of the product with uuid {uuid}.", uuid);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        private async Task<int> GenerateId()
+        {
+            var highestId = await _context.Set<T>().MaxAsync(x => (int?)x.Id) ?? 0;
+            return highestId + 1;
+        }
+
     }
 }

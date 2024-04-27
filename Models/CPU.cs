@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
@@ -14,9 +13,6 @@ namespace ProductGuard.Models
             Threads = threads;
             ClockSpeed = clockSpeed;
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
 
         [Required(ErrorMessage = "Socket is required")]
         public string Socket { get; set; }

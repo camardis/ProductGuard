@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProductGuard.Database;
+using ProductGuard.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,10 @@ builder.Services.AddSwaggerGen(c =>
             Email = "Tito@camardis.com"
         }
     });
+
     c.EnableAnnotations();
 });
+
 
 
 // Add database context
