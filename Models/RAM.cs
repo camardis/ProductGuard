@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProductGuard.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProductGuard.Models
 {
@@ -18,7 +19,7 @@ namespace ProductGuard.Models
         public int Capacity { get; set; } // Capacity in GB
 
         [Required(ErrorMessage = "Type is required")]
-        [RegularExpression("^(DDR3|DDR4|DDR5)$", ErrorMessage = "Invalid RAM type")]
+        [EnumDataType(typeof(RamTypeEnums), ErrorMessage = "Invalid RAM type")]
         public string Type { get; set; } // DDR3, DDR4, etc.
 
         [Required(ErrorMessage = "Speed is required")]
