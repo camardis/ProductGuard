@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public abstract class Product
+    public abstract class ProductBase
     {
-        protected Product()
+        protected ProductBase()
         {
         }
 
-        public Product(string name, string brand, decimal price, string description, bool available, string image)
+        public ProductBase(string name, string brand, decimal price, string description, bool available, string image)
         {
             Name = name;
             Brand = brand;
@@ -21,7 +21,10 @@ namespace ProductGuard.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Uuid { get; set; } 
+        public Guid Uuid { get; set; }
+
+        [Required(ErrorMessage = "Id is required")]
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
@@ -40,5 +43,8 @@ namespace ProductGuard.Models
         public bool Available { get; set; }
 
         public string Image { get; set; }
+
+        [Required]
+        public int StockAmount { get; set; }
     }
 }

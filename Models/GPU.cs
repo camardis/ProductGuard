@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public class GPU : Product
+    public class GPU : ProductBase
     {
         public GPU()
         {
@@ -17,9 +16,6 @@ namespace ProductGuard.Models
             Chipset = chipset;
             CoreClock = coreClock;
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
 
         [Required(ErrorMessage = "VRAM size is required")]
         public int VRAM { get; set; } // Video RAM in GB

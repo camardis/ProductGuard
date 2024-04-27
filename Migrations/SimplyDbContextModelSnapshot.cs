@@ -45,6 +45,9 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -59,6 +62,9 @@ namespace ProductGuard.Migrations
                     b.Property<string>("Socket")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
 
                     b.Property<int>("Threads")
                         .HasColumnType("int");
@@ -92,6 +98,9 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -102,6 +111,9 @@ namespace ProductGuard.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
 
                     b.Property<int>("VRAM")
                         .HasColumnType("int");
@@ -132,6 +144,9 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -150,9 +165,62 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
+
                     b.HasKey("Uuid");
 
                     b.ToTable("Motherboards");
+                });
+
+            modelBuilder.Entity("ProductGuard.Models.PowerSupply", b =>
+                {
+                    b.Property<Guid>("Uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EfficiencyRating")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FormFactor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Wattage")
+                        .HasColumnType("int");
+
+                    b.HasKey("Uuid");
+
+                    b.ToTable("PowerSupplies");
                 });
 
             modelBuilder.Entity("ProductGuard.Models.RAM", b =>
@@ -175,6 +243,9 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -189,12 +260,12 @@ namespace ProductGuard.Migrations
                     b.Property<int>("Speed")
                         .HasColumnType("int");
 
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("id")
-                        .HasColumnType("int");
 
                     b.HasKey("Uuid");
 
@@ -221,6 +292,9 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -235,6 +309,9 @@ namespace ProductGuard.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()

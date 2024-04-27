@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductGuard.Models
 {
-    public class CPU : Product
+    public class CPU : ProductBase
     {
         public CPU(string name, string brand, decimal price, string description, bool available, string image,
             string socket, int cores, int threads, double clockSpeed)
@@ -14,9 +13,6 @@ namespace ProductGuard.Models
             Threads = threads;
             ClockSpeed = clockSpeed;
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
 
         [Required(ErrorMessage = "Socket is required")]
         public string Socket { get; set; }

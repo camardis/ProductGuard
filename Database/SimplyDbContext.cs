@@ -13,6 +13,7 @@ namespace ProductGuard.Database
         public DbSet<Motherboard> Motherboards { get; set; }
         public DbSet<RAM> RAMs { get; set; }
         public DbSet<StorageDevice> StorageDevices { get; set; }
+        public DbSet<PowerSupply> PowerSupplies { get; set; }
 
 
         public SimplyDbContext(DbContextOptions<SimplyDbContext> options) : base(options)
@@ -24,6 +25,7 @@ namespace ProductGuard.Database
             // Specify the MySQL-specific configurations here if needed
             base.OnModelCreating(modelBuilder);
         }
+
 
     }
 }
