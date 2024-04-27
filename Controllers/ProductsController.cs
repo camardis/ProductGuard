@@ -13,12 +13,12 @@ namespace ProductGuard.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly SimplyDbContext _context;
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductController(SimplyDbContext context, ILogger<ProductController> logger)
+        public ProductsController(SimplyDbContext context, ILogger<ProductsController> logger)
         {
             _context = context;
             _logger = logger;

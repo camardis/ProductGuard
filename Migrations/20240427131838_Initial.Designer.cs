@@ -12,7 +12,7 @@ using ProductGuard.Database;
 namespace ProductGuard.Migrations
 {
     [DbContext(typeof(SimplyDbContext))]
-    [Migration("20240427093120_Initial")]
+    [Migration("20240427131838_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -61,6 +61,10 @@ namespace ProductGuard.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Socket")
                         .IsRequired()
@@ -115,6 +119,10 @@ namespace ProductGuard.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("StockAmount")
                         .HasColumnType("int");
 
@@ -163,6 +171,10 @@ namespace ProductGuard.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Socket")
                         .IsRequired()
@@ -215,6 +227,10 @@ namespace ProductGuard.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("StockAmount")
                         .HasColumnType("int");
 
@@ -259,6 +275,10 @@ namespace ProductGuard.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Speed")
                         .HasColumnType("int");
@@ -312,6 +332,10 @@ namespace ProductGuard.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("StockAmount")
                         .HasColumnType("int");

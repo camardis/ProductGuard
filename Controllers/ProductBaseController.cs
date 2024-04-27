@@ -262,6 +262,11 @@ namespace ProductGuard.Controllers
         {
             try
             {
+                if (price <= 0)
+                {
+                    return BadRequest("Price must be greater than 0.");
+                }
+
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state.");

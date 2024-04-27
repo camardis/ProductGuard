@@ -36,6 +36,9 @@ namespace ProductGuard.Models
         [Range(1, double.MaxValue, ErrorMessage = "Price must be a positive number")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Short description is required")]
+        public string ShortDescription { get; set; }
+
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
 
@@ -46,5 +49,6 @@ namespace ProductGuard.Models
 
         [Required]
         public int StockAmount { get; set; }
+
     }
 }
