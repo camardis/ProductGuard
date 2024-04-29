@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProductGuard.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +37,9 @@ namespace ProductGuard.Migrations
                     Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockAmount = table.Column<int>(type: "int", nullable: false)
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -67,7 +69,9 @@ namespace ProductGuard.Migrations
                     Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockAmount = table.Column<int>(type: "int", nullable: false)
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -98,7 +102,9 @@ namespace ProductGuard.Migrations
                     Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockAmount = table.Column<int>(type: "int", nullable: false)
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -129,7 +135,9 @@ namespace ProductGuard.Migrations
                     Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockAmount = table.Column<int>(type: "int", nullable: false)
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -159,7 +167,9 @@ namespace ProductGuard.Migrations
                     Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockAmount = table.Column<int>(type: "int", nullable: false)
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -190,7 +200,9 @@ namespace ProductGuard.Migrations
                     Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockAmount = table.Column<int>(type: "int", nullable: false)
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

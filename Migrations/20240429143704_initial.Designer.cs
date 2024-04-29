@@ -12,8 +12,8 @@ using ProductGuard.Database;
 namespace ProductGuard.Migrations
 {
     [DbContext(typeof(SimplyDbContext))]
-    [Migration("20240427131838_Initial")]
-    partial class Initial
+    [Migration("20240429143704_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,10 @@ namespace ProductGuard.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -94,6 +98,10 @@ namespace ProductGuard.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Chipset")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -144,6 +152,10 @@ namespace ProductGuard.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -198,6 +210,10 @@ namespace ProductGuard.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -258,6 +274,10 @@ namespace ProductGuard.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -310,6 +330,10 @@ namespace ProductGuard.Migrations
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()

@@ -17,6 +17,7 @@ namespace ProductGuard.Models
             Description = description;
             Available = available;
             Image = image;
+            Category = GetType().Name;
         }
 
         [Key]
@@ -49,6 +50,9 @@ namespace ProductGuard.Models
 
         [Required]
         public int StockAmount { get; set; }
+
+        [Required]
+        public string Category { get; set; }
 
     }
 }
