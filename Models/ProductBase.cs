@@ -7,6 +7,7 @@ namespace ProductGuard.Models
     {
         protected ProductBase()
         {
+
         }
 
         public ProductBase(string name, string brand, decimal price, string description, bool available, string image)
